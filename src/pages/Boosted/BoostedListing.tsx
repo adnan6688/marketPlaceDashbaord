@@ -1,46 +1,51 @@
 import { CircleDollarSign, TrendingUp, Calendar, User } from "lucide-react";
 import { Statics } from "./Statics";
 import ActvieBoost from "./ActvieBoost";
+import { useQuery } from "@tanstack/react-query";
+import { statsofBoostedList } from "./boostedListingApi";
 
 
 
 
-const boostsStats = [
-  {
-    title: "Active Boosts",
-    total: 5,
-    bg: "#1F3A5F",
-    icon: <TrendingUp className="text-blue-950" />,
-    text: '#51A2FF',
-  }, {
-
-    icon: <CircleDollarSign className="text-green-400" />,
-    title: "Total Revenue",
-    total: 399.50,
-    bg: "#00C95033",
-    text: "#05DF72",
-
-  }, {
-    title: "Pending Payment",
-    icon: <Calendar className="text-amber-300" />,
-    bg: '#F0B10033',
-    total: 45,
-    text: "#FDC700",
-
-  }, {
-    title: "Total Views",
-    icon: <User className="text-[#51A2FF]" />,
-    bg: '#2B7FFF33',
-    total: 43,
-    text: "#51A2FF",
-  }
-]
 
 
 export default function BoostedListing() {
 
+  const { data: statsList } = useQuery({
+    queryKey: ['stats'],
+    queryFn: statsofBoostedList
+  })
 
-
+  const boostsStats = [
+    {
+      title: "Active Boosts",
+      total: statsList?.activeBoosts || 0,
+      bg: "#1F3A5F",
+      icon: <TrendingUp className="text-blue-400" />,
+      text: "#51A2FF",
+    },
+    {
+      title: "Total Revenue",
+      total: statsList?.totalRevenue || 0,
+      bg: "#00C95033",
+      icon: <CircleDollarSign className="text-green-400" />,
+      text: "#05DF72",
+    },
+    {
+      title: "Expired Boosts",
+      total: statsList?.expiredBoosts || 0,
+      bg: "#F0B10033",
+      icon: <Calendar className="text-amber-300" />,
+      text: "#FDC700",
+    },
+    {
+      title: "Total Boosts",
+      total: statsList?.totalBoosts || 0,
+      bg: "#2B7FFF33",
+      icon: <User className="text-[#51A2FF]" />,
+      text: "#51A2FF",
+    },
+  ];
 
   return (
 
@@ -68,9 +73,9 @@ export default function BoostedListing() {
       </div>
 
 
-     <div className="my-4 sm:my-10">
-       <ActvieBoost></ActvieBoost>
-     </div>
+      <div className="my-4 sm:my-10">
+        <ActvieBoost></ActvieBoost>
+      </div>
 
       <Statics></Statics>
     </div>

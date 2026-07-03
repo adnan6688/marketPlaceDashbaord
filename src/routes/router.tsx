@@ -8,7 +8,6 @@ import ContentMod from "../pages/Content/ContentMod";
 import Dashboard from "../pages/Dashboard/Dashboard";
 import DetailsOfListing from "../pages/Listing/DetailsOfListing";
 import Listing from "../pages/Listing/Listing";
-import Notification from "../pages/Notification/Notification";
 import SettginsPage from "../pages/SettingsPage/SettginsPage";
 import UserManagement from "../pages/UserManagement/UserManagement";
 import Verification from "../pages/Verification/Verification";
@@ -52,9 +51,6 @@ export const router = createBrowserRouter([
             }, {
                 path: "boosted",
                 Component: BoostedListing
-            }, {
-                path: "notification",
-                Component: Notification
             }, {
                 path: "analytics",
                 Component: Analytics

@@ -9,6 +9,7 @@ import { useMutation } from '@tanstack/react-query'
 import { userLogin } from '../api/allapi'
 import Toast from '../../components/Toast'
 
+
 export default function Login() {
 
   const [showPassword, setShowPassword] = useState(false);
@@ -25,15 +26,21 @@ export default function Login() {
 
     onSuccess: (data) => {
       const { token, message } = data
+      if(message == 'Incorrect password!'){
+        Toast({type : 'error' , message })
+        return 
+      }
       if (token) {
         localStorage.setItem('Token', token)
       }
+      
       Toast({ type: 'success', message })
       navigate('/dashboard')
     },
 
     onError: (error) => {
       Toast({ type: 'error', message: error.message })
+  
     },
   });
 

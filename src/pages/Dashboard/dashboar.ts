@@ -21,18 +21,32 @@ export const topListing = async () => {
     }
 }
 
-export const recentUsers = async ()=>{
+export const recentUsers = async () => {
 
-    try{
+    try {
         const result = await sequreApi.get('/users/recentUser')
-        
+
         return {
-            result : result?.data
+            result: result?.data
         }
-    }catch(err){
+    } catch (err) {
         const message = getErrorMessage(err)
         return {
             message
         }
+    }
+}
+
+
+
+export const userGrowth = async (range?: string) => {
+
+
+    try {
+        const res = await sequreApi.get(`/admin/analytics/user-growth?range=${range ?? 'monthly'}`)
+     
+        return res?.data?.data ?? []
+    } catch {
+        //
     }
 }

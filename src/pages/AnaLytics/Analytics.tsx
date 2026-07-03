@@ -1,17 +1,15 @@
-import EngagementMetrics from "./EngagementMetrics";
-
+import { Statics } from "../Boosted/Statics";
+import UserGrowthChart from "../Dashboard/UserGrowthChart";
 
 export default function Analytics() {
   return (
     <div className="flex flex-col gap-5">
-      
-      {/* <UserGrowth></UserGrowth> */}
 
 
-      {/* <TopPerformingListings></TopPerformingListings> */}
+      <UserGrowthChart></UserGrowthChart>
 
 
-      <EngagementMetrics></EngagementMetrics>
+      <Statics></Statics>
     </div>
   )
 }

@@ -37,7 +37,6 @@ type SidebarProps = {
   handleLogout: () => void;
 };
 
-/* ---------------- PAGE META ---------------- */
 
 const paths = {
   "/dashboard": {
@@ -64,10 +63,7 @@ const paths = {
     title: "Boosted Listings",
     des: "Track boosted listings",
   },
-  "/dashboard/notification": {
-    title: "Notifications",
-    des: "Platform alerts",
-  },
+
   "/dashboard/analytics": {
     title: "Analytics",
     des: "Performance insights",
@@ -78,7 +74,7 @@ const paths = {
   },
 } as const;
 
-/* ---------------- MENU ---------------- */
+
 
 const menuItems: MenuItem[] = [
   { icon: LayoutDashboard, label: "Dashboard", path: "/dashboard" },
@@ -87,7 +83,6 @@ const menuItems: MenuItem[] = [
   { icon: Users, label: "Verification", path: "/dashboard/verification" },
   { icon: Flag, label: "Moderation", path: "/dashboard/content" },
   { icon: TrendingUp, label: "Boosted", path: "/dashboard/boosted" },
-  { icon: Bell, label: "Notifications", path: "/dashboard/notification" },
   {
     icon: ChartNoAxesColumnIncreasing,
     label: "Analytics",
@@ -96,7 +91,7 @@ const menuItems: MenuItem[] = [
   { icon: Settings, label: "Settings", path: "/dashboard/settings" },
 ];
 
-/* ---------------- MAIN LAYOUT ---------------- */
+
 
 const MainLayout: React.FC = () => {
   const navigate = useNavigate();
@@ -193,7 +188,7 @@ const MainLayout: React.FC = () => {
   );
 };
 
-/* ---------------- SIDEBAR ---------------- */
+
 
 const SidebarContent = ({
   items,
@@ -224,13 +219,12 @@ const SidebarContent = ({
           <NavLink
             key={item.path}
             to={item.path}
+            end={item.path === "/dashboard"}
             onClick={() => onClose?.()}
             className={({ isActive }) =>
-              `flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition
-              ${isActive
-                ? "bg-linear-to-r from-sky-500/20 to-purple-500/10 text-white border border-sky-500/30"
-                : "text-slate-300 hover:bg-white/5 hover:text-white"
-              }`
+              isActive
+                ? "flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium bg-linear-to-r from-sky-500/20 to-purple-500/10 text-white border border-sky-500/30"
+                : "flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-300 hover:bg-white/5 hover:text-white"
             }
           >
             <item.icon size={18} />
