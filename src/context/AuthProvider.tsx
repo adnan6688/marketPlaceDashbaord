@@ -18,10 +18,10 @@ const AuthProvider = ({ children }: Props) => {
       return res.data.data;
     },
     retry: false,
+    staleTime: 1000 * 60 * 5
   });
 
 
-  console.log(data, 'Provider')
 
   const value: IValue = {
     user: data || null,

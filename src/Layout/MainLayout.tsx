@@ -1,9 +1,8 @@
 import { AnimatePresence, motion } from "framer-motion";
 import {
-  Bell,
   ChartNoAxesColumnIncreasing,
   CircleCheck,
-  Flag,
+
   LayoutDashboard,
   LogOut,
   Menu,
@@ -55,10 +54,7 @@ const paths = {
     title: "Verification Requests",
     des: "Approve verification requests",
   },
-  "/dashboard/content": {
-    title: "Content Moderation",
-    des: "Review flagged content",
-  },
+ 
   "/dashboard/boosted": {
     title: "Boosted Listings",
     des: "Track boosted listings",
@@ -81,7 +77,6 @@ const menuItems: MenuItem[] = [
   { icon: Users, label: "User Management", path: "/dashboard/user" },
   { icon: CircleCheck, label: "Listings", path: "/dashboard/listing" },
   { icon: Users, label: "Verification", path: "/dashboard/verification" },
-  { icon: Flag, label: "Moderation", path: "/dashboard/content" },
   { icon: TrendingUp, label: "Boosted", path: "/dashboard/boosted" },
   {
     icon: ChartNoAxesColumnIncreasing,

@@ -1,25 +1,26 @@
+
 import sequreApi from "../../axios/axiosSequre"
 
 
 export interface IAuth {
-  provider: string;
-  providerId: string;
+    provider: string;
+    providerId: string;
 }
 
 export interface UserIfnoInterface {
-  _id: string;
-  fullName: string;
-  bio: string | null;
-  email: string;
-  avatar: string | null;
-  verifiedBadge: boolean;
-  isVerified: boolean;
-  isActive: "ACTIVE" | "INACTIVE" | "BLOCKED";
-  isDeleted: boolean;
-  role: "ADMIN" | "SELLER" | "USER";
-  auths: IAuth[];
-  createdAt: string;
-  updatedAt: string;
+    _id: string;
+    fullName: string;
+    bio: string | null;
+    email: string;
+    avatar: string | null;
+    verifiedBadge: boolean;
+    isVerified: boolean;
+    isActive: "ACTIVE" | "INACTIVE" | "BLOCKED";
+    isDeleted: boolean;
+    role: "ADMIN" | "SELLER" | "USER";
+    auths: IAuth[];
+    createdAt: string;
+    updatedAt: string;
 }
 
 
@@ -52,4 +53,22 @@ export const userGetData = async (page?: number, role?: string, searchTerm?: str
         data: res?.data?.data?.users,
         meta: res?.data?.data?.meta
     }
+}
+
+
+export const userStatusUpdate = async (type: "ACTIVE" | "INACTIVE", userId: string) => {
+
+
+    try {
+
+
+        console.log(type ,  userId)
+        const result = await sequreApi.patch(`/users/user-update_status/${userId}/${type}`)
+        console.log(result?.data)
+        return result?.data
+
+    } catch (err) {
+        console.log(err)
+    }
+
 }

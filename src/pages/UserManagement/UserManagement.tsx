@@ -1,9 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
-import { Ban, ChevronDown, CircleCheckBig, CircleX, Filter, Search } from 'lucide-react';
+import { Ban, Check, ChevronDown, CircleCheckBig, CircleX, Filter, Search } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
-import { userGetData, type UserIfnoInterface } from './userData';
+import { userGetData, userStatusUpdate, type UserIfnoInterface } from './userData';
 import Pagination from '../../components/Pagination';
 import { Debounce } from '../../components/Debounce';
+import Toast from '../../components/Toast';
 
 
 
@@ -17,6 +18,11 @@ const UserManagement: React.FC = () => {
 
   const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState("All");
+
+
+  const [selectId, setSelectId] = useState<string>("")
+
+
 
   const [search, setSearch] = useState<string>('')
   const [finalSearch, setFinalSearch] = useState<string>('')
@@ -35,11 +41,13 @@ const UserManagement: React.FC = () => {
   }, [debouncedSearch]);
 
 
-  const { data: UserData, isLoading, error } = useQuery({
+  const { data: UserData, isLoading, error, refetch } = useQuery({
     queryKey: ['userDAta', currentPage, selectedUser, finalSearch],
     queryFn: () => userGetData(currentPage, selectedUser, finalSearch),
   })
-  console.log(UserData)
+
+
+
 
 
   const onPrev = () => {
@@ -49,6 +57,28 @@ const UserManagement: React.FC = () => {
   const onNext = () => {
     setCurrentPage(currentPage + 1)
   }
+
+  const statusUpdateFn = async (userId: string, type: "ACTIVE" | "INACTIVE") => {
+
+
+    setSelectId(userId)
+    try {
+      const res = await userStatusUpdate(type, userId)
+      console.log(res)
+      refetch()
+
+      Toast({type : 'success' , message : 'User status update successfully'})
+    } catch (err) {
+      console.log(err)
+    }
+    finally {
+      setSelectId("")
+    }
+
+  }
+
+
+
 
   if (error) {
 
@@ -125,7 +155,7 @@ const UserManagement: React.FC = () => {
                 <th className="px-6 py-4 text-[16px] font-bold   ">Role</th>
                 <th className="px-6 py-4 text-center text-[16px] font-bold   ">Verification Status</th>
 
-                <th className="px-6 py-4 text-[16px] font-bold    text-center">Delete</th>
+                <th className="px-6 py-4 text-[16px] font-bold    text-center">Status</th>
                 <th className="px-6 py-4 text-[16px] font-bold    text-right">Actions</th>
               </tr>
             </thead>
@@ -174,8 +204,13 @@ const UserManagement: React.FC = () => {
 
 
                   <td className="px-6 py-4 text-center">
-                    <span className={` ${user?.isDeleted ? "border-red-500 px-3 py-1 text-red-600 rounded-l-full  rounded-r-full" : " text-green-500 rounded-l-full py-1 rounded-r-full border border-green-500 px-3 "} `}>
-                      {user?.isDeleted ? 'Yes' : 'No'}
+                    <span
+                      className={`px-3 py-1 rounded-full border text-sm ${user?.isActive == 'INACTIVE'
+                        ? "text-red-600 border-red-500"
+                        : "text-green-600 border-green-500"
+                        }`}
+                    >
+                      {user?.isActive == 'INACTIVE' ? "Inactive" : "Active"}
                     </span>
                   </td>
 
@@ -184,9 +219,28 @@ const UserManagement: React.FC = () => {
                     <div className="flex justify-end gap-2  transition-opacity">
 
 
-                      <button className="p-2 hover:bg-red-500/20 rounded-lg text-[#FF6467] transition-colors">
-                        <Ban size={20} />
+                      <button
+                        disabled={selectId === user._id}
+                        onClick={() =>
+                          statusUpdateFn(
+                            user._id,
+                            user?.isActive === "ACTIVE" ? "INACTIVE" : "ACTIVE"
+                          )
+                        }
+                        className={`p-2 rounded-lg transition-colors ${user?.isActive === "ACTIVE"
+                          ? "hover:bg-red-500/20 text-red-500"
+                          : "hover:bg-green-500/20 text-green-500"
+                          }`}
+                      >
+                        {selectId === user._id ? (
+                          <div className="w-5 h-5 border-2 border-gray-300 border-t-transparent rounded-full animate-spin"></div>
+                        ) : user?.isActive === "ACTIVE" ? (
+                          <Ban size={20} />
+                        ) : (
+                          <Check size={20} />
+                        )}
                       </button>
+
                     </div>
 
                   </td>

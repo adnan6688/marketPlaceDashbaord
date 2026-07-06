@@ -4,7 +4,6 @@ import Analytics from "../pages/AnaLytics/Analytics";
 import ForgetPassword from "../pages/Auth/ForgetPassword";
 import Login from "../pages/Auth/Login";
 import BoostedListing from "../pages/Boosted/BoostedListing";
-import ContentMod from "../pages/Content/ContentMod";
 import Dashboard from "../pages/Dashboard/Dashboard";
 import DetailsOfListing from "../pages/Listing/DetailsOfListing";
 import Listing from "../pages/Listing/Listing";
@@ -45,10 +44,7 @@ export const router = createBrowserRouter([
             }, {
                 path: "verification",
                 Component: Verification
-            }, {
-                path: "content",
-                Component: ContentMod
-            }, {
+            },  {
                 path: "boosted",
                 Component: BoostedListing
             }, {
