@@ -18,7 +18,8 @@ const AuthProvider = ({ children }: Props) => {
       return res.data.data;
     },
     retry: false,
-    staleTime: 1000 * 60 * 5
+    staleTime: 1000 * 60 * 5,
+    enabled: !!localStorage.getItem("Token")
   });
 
 

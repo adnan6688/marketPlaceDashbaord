@@ -9,6 +9,8 @@ type Props = {
 };
 
 export default function PrivetRoutes({ children }: Props) {
+
+  
   const { loading, user } = AuthHook()
   const location = useLocation();
 

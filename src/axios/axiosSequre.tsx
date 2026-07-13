@@ -6,7 +6,6 @@ const sequreApi = axios.create({
   baseURL: 'http://localhost:5000/api/v1'
 });
 
-console.log(import.meta.env.VITE_BASE_URL)
 
 // Request interceptor to attach token
 sequreApi.interceptors.request.use((config) => {

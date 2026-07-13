@@ -5,9 +5,10 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router'
 import logo from '../../assets/Logo.png'
 import back from '../../assets/LoginImage.jpeg'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { userLogin } from '../api/allapi'
 import Toast from '../../components/Toast'
+import sequreApi from '../../axios/axiosSequre'
 
 
 export default function Login() {
@@ -17,33 +18,76 @@ export default function Login() {
   const navigate = useNavigate()
   const [email, setEmail] = useState("postwagens@gmail.com")
   const [password, setPassword] = useState("rawxnfrkhkrvwqcy")
+  const queryClient = useQueryClient(); // 2. ক্লায়েন্ট ইনিশিয়েট করুন
 
+  // const { mutate: handleLogin, isPending } = useMutation({
+  //   mutationFn: ({ email, password }: { email: string; password: string }) => {
+  //     return userLogin(email, password);
+  //   },
+
+  //   onSuccess: async (data) => {
+  //     const { token, message } = data
+  //     if (message == 'Incorrect password!') {
+  //       Toast({ type: 'error', message })
+  //       return
+  //     }
+  //     if (token) {
+  //       localStorage.setItem('Token', token)
+  //     }
+
+
+  //     await queryClient.invalidateQueries({ queryKey: ["me"] });
+
+  //     Toast({ type: 'success', message })
+  //     navigate('/dashboard')
+  //   },
+
+  //   onError: (error) => {
+  //     Toast({ type: 'error', message: error.message })
+
+  //   },
+  // });
 
   const { mutate: handleLogin, isPending } = useMutation({
     mutationFn: ({ email, password }: { email: string; password: string }) => {
       return userLogin(email, password);
     },
 
-    onSuccess: (data) => {
+    onSuccess: async (data) => {
       const { token, message } = data
-      if(message == 'Incorrect password!'){
-        Toast({type : 'error' , message })
-        return 
+
+      if (message == 'Incorrect password!') {
+        Toast({ type: 'error', message })
+        return
       }
+
       if (token) {
         localStorage.setItem('Token', token)
       }
-      
-      Toast({ type: 'success', message })
-      navigate('/dashboard')
+
+      try {
+
+        await queryClient.fetchQuery({
+          queryKey: ["me"],
+          queryFn: async () => {
+            const res = await sequreApi.get("/users/get_me");
+            return res.data.data;
+          },
+        });
+
+       
+        Toast({ type: 'success', message })
+        navigate('/dashboard')
+
+      } catch {
+        Toast({ type: 'error', message: 'Failed to load user profile' })
+      }
     },
 
     onError: (error) => {
       Toast({ type: 'error', message: error.message })
-  
     },
   });
-
   return (
     <div style={{
       backgroundImage: `url(${back})`,
