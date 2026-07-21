@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { Eye, ShieldAlert, } from 'lucide-react';
-import { userReportDataApi } from './userReportApi';
+import { userReportDataApi, type TRpoerts } from './userReportApi';
 import Pagination from '../../components/Pagination';
 import { useState } from 'react';
 
@@ -15,7 +15,7 @@ export default function UserVerifications() {
         queryFn: () => userReportDataApi(currentpage)
     })
 
-    console.log(data, "user reports")
+  
 
     const reportsData = data?.data || []
 
@@ -25,7 +25,6 @@ export default function UserVerifications() {
     const nextPage = () => {
         setCurrentPage(currentpage + 1)
     }
-
 
 
 
@@ -81,7 +80,7 @@ export default function UserVerifications() {
                                             <span>Loading...</span>
                                         </div>
                                     </td>
-                                </tr> : reportsData?.map((user) => (
+                                </tr> : reportsData?.map((user : TRpoerts) => (
                                     <tr
                                         key={user.userId}
                                         className="bg-white/5 transition hover:bg-white/10"

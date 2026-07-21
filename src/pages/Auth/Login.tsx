@@ -71,6 +71,7 @@ export default function Login() {
           queryKey: ["me"],
           queryFn: async () => {
             const res = await sequreApi.get("/users/get_me");
+    
             return res.data.data;
           },
         });
@@ -88,6 +89,9 @@ export default function Login() {
       Toast({ type: 'error', message: error.message })
     },
   });
+
+
+  
   return (
     <div style={{
       backgroundImage: `url(${back})`,

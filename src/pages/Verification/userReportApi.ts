@@ -1,7 +1,14 @@
 import sequreApi from "../../axios/axiosSequre"
 
 
-
+export type TRpoerts = {
+    email: string,
+    fullName: string,
+    level: string,
+    reportCount: number,
+    role: string,
+    userId: string
+}
 
 type PaginationParams = {
     page?: number

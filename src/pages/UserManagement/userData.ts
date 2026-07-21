@@ -39,13 +39,12 @@ export const userGetData = async (page?: number, role?: string, searchTerm?: str
     }
 
     if (role && role !== 'All') {
-        console.log(role.toUpperCase())
         params.role = role.toUpperCase()
     }
     if (searchTerm) {
         params.searchTerm = searchTerm
     }
-    console.log(params)
+   
 
     const res = await sequreApi.get(`/users`, { params })
 

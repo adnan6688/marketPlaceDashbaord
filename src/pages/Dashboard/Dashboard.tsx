@@ -48,7 +48,7 @@ export default function Dashboard() {
   const { data: userList } = useQuery({ queryKey: ['users'], queryFn: recentUsers })
 
 
-  console.log(userList?.result, "top listing")
+
 
 
   return (

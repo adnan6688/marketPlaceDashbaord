@@ -63,11 +63,11 @@ const UserManagement: React.FC = () => {
 
     setSelectId(userId)
     try {
-      const res = await userStatusUpdate(type, userId)
-      console.log(res)
+      await userStatusUpdate(type, userId)
+
       refetch()
 
-      Toast({type : 'success' , message : 'User status update successfully'})
+      Toast({ type: 'success', message: 'User status update successfully' })
     } catch (err) {
       console.log(err)
     }

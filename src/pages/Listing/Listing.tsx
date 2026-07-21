@@ -42,14 +42,14 @@ export default function Listing() {
       : 'bg-purple-500/10 text-purple-500 border-purple-500/20';
   };
 
-  console.log(listingCount)
+
 
 
   const onPrev = () => {
     setPage(page - 1)
   }
   const onNext = () => {
-    console.log(page)
+  
     setPage(page + 1)
   }
 
